@@ -2,6 +2,7 @@ module.exports = {
   content: [
     './pages/**/*.{js,ts,jsx,tsx}',
     './components/**/*.{js,ts,jsx,tsx}',
+    '../node_modules/@trelliscommerce/react-components/lib//**/*.{js,ts,jsx,tsx}',
   ],
   safelist: ['outline-none'],
   theme: {

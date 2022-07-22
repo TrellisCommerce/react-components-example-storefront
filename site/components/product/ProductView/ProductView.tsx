@@ -10,6 +10,8 @@ import { Container, Text } from '@components/ui'
 import { SEO } from '@components/common'
 import ProductSidebar from '../ProductSidebar'
 import ProductTag from '../ProductTag'
+import { ImageGallery } from '@trelliscommerce/react-components';
+
 interface ProductViewProps {
   product: Product
   relatedProducts: Product[]
@@ -21,7 +23,10 @@ const ProductView: FC<ProductViewProps> = ({ product, relatedProducts }) => {
     baseAmount: product.price.retailPrice,
     currencyCode: product.price.currencyCode!,
   })
-
+const mappedProductGallery = product.images.map((image, index) => {
+  return {imageUrl: image.url, alt: image.alt, isPrimary: (index === 1)}
+})
+  console.log(mappedProductGallery)
   return (
     <>
       <Container className="max-w-none w-full" clean>
@@ -33,21 +38,17 @@ const ProductView: FC<ProductViewProps> = ({ product, relatedProducts }) => {
               fontSize={32}
             />
             <div className={s.sliderContainer}>
-              <ProductSlider key={product.id}>
-                {product.images.map((image, i) => (
-                  <div key={image.url} className={s.imageContainer}>
-                    <Image
-                      className={s.img}
-                      src={image.url!}
-                      alt={image.alt || 'Product Image'}
-                      width={600}
-                      height={600}
-                      priority={i === 0}
-                      quality="85"
-                    />
-                  </div>
-                ))}
-              </ProductSlider>
+              <ImageGallery
+                Badge={<span className="absolute px-2 py-1 text-base font-bold text-white uppercase bg-gray-400 top-2 left-2">best seller</span>}
+                bestSellerText="best seller"
+                classNames={{
+                  mainImageWrapper: ''
+                }}
+                images={mappedProductGallery}
+                isBestSeller
+                navigateOnHover
+                reelPosition="bottom"
+              />
             </div>
             {process.env.COMMERCE_WISHLIST_ENABLED && (
               <WishlistButton

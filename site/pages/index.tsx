@@ -2,7 +2,8 @@ import commerce from '@lib/api/commerce'
 import { Layout } from '@components/common'
 import { ProductCard } from '@components/product'
 import { Grid, Marquee, Hero } from '@components/ui'
-// import HomeAllProductsGrid from '@components/common/HomeAllProductsGrid'
+import HomeAllProductsGrid from '@components/common/HomeAllProductsGrid'
+import { HeroImageWithText } from '@trelliscommerce/react-components';
 import type { GetStaticPropsContext, InferGetStaticPropsType } from 'next'
 
 export async function getStaticProps({
@@ -40,6 +41,17 @@ export default function Home({
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
     <>
+      <div>
+        <HeroImageWithText
+          classNames={{root: 'h-[42rem]'}}
+          imageAltText="This is an image"
+          imageSrc="https://source.unsplash.com/random"
+          label="HeroImageWithText"
+          paragraphText="High-fidelity wireframes are often used for documenting because they incorporate a level of detail that more closely matches the design of the actual webpage, thus taking longer"
+          primary
+          titleText="Wireframes can be pencil drawings on a whiteboard."
+        />
+      </div>
       <Grid variant="filled">
         {products.slice(0, 3).map((product: any, i: number) => (
           <ProductCard

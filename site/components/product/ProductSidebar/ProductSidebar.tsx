@@ -3,7 +3,8 @@ import { useAddItem } from '@framework/cart'
 import { FC, useEffect, useState } from 'react'
 import { ProductOptions } from '@components/product'
 import type { Product } from '@commerce/types/product'
-import { Button, Text, Rating, Collapse, useUI } from '@components/ui'
+import { Text, Rating, Collapse, useUI } from '@components/ui'
+import { StarRating, Button } from '@trelliscommerce/react-components';
 import {
   getProductVariant,
   selectDefaultOptionFromProduct,
@@ -52,24 +53,34 @@ const ProductSidebar: FC<ProductSidebarProps> = ({ product, className }) => {
         className="pb-4 break-words w-full max-w-xl"
         html={product.descriptionHtml || product.description}
       />
+      <StarRating
+        onChange={function noRefCheck(){}}
+        reviewCount={36}
+        showStarCount
+        starRating={3.5}
+      />
+      <StarRating
+        isEditable
+        onChange={function noRefCheck(){}}
+        reviewCount={36}
+        showStarCount
+        starRating={3.5}
+      />
       <div className="flex flex-row justify-between items-center">
-        <Rating value={4} />
-        <div className="text-accent-6 pr-1 font-medium text-sm">36 reviews</div>
+        {/*<Rating value={4} />*/}
+        {/*<div className="text-accent-6 pr-1 font-medium text-sm">36 reviews</div>*/}
       </div>
       <div>
         {process.env.COMMERCE_CART_ENABLED && (
           <Button
-            aria-label="Add to Cart"
-            type="button"
-            className={s.button}
             onClick={addToCart}
             loading={loading}
-            disabled={variant?.availableForSale === false}
-          >
-            {variant?.availableForSale === false
-              ? 'Not Available'
-              : 'Add To Cart'}
-          </Button>
+          className={s.button}
+          component="Button"
+          displayText="Add to Cart"
+          disabled={variant?.availableForSale === false}
+          primary
+          />
         )}
       </div>
       <div className="mt-6">

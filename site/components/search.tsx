@@ -5,11 +5,16 @@ import { useState } from 'react'
 import { useRouter } from 'next/router'
 
 import { Layout } from '@components/common'
-import { ProductCard } from '@components/product'
+//import { ProductCard } from '@components/product'
 import type { Product } from '@commerce/types/product'
 import { Container, Skeleton } from '@components/ui'
-
+import { ProductCard } from '@trelliscommerce/react-components';
 import useSearch from '@framework/product/use-search'
+
+const placeholderImg = '/product-img-placeholder.svg'
+
+
+
 
 import getSlug from '@lib/get-slug'
 import rangeMap from '@lib/range-map'
@@ -27,8 +32,18 @@ import {
   getDesignerPath,
   useSearchMeta,
 } from '@lib/search'
+// import usePrice from "@framework/product/use-price";
 
 export default function Search({ categories, brands }: SearchPropsType) {
+  // function GetPrice (product) {
+  //   const { price } = usePrice({
+  //     amount: product.price.value,
+  //     baseAmount: product.price.retailPrice,
+  //     currencyCode: product.price.currencyCode!,
+  //   })
+  //   return price
+  // }
+
   const [activeFilter, setActiveFilter] = useState('')
   const [toggleFilter, setToggleFilter] = useState(false)
 
@@ -316,14 +331,17 @@ export default function Search({ categories, brands }: SearchPropsType) {
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {data.products.map((product: Product) => (
                 <ProductCard
-                  variant="simple"
-                  key={product.path}
-                  className="animated fadeIn"
-                  product={product}
-                  imgProps={{
-                    width: 480,
-                    height: 480,
-                  }}
+
+                classNames={{starSize: 'fill-yellow-500'}}
+                imageUrl={product.images[0]?.url || placeholderImg}
+                price= {`200 ${product.price?.currencyCode}`}
+                reviews={12}
+                starRating={4}
+                textCTA="add to cart"
+                title={product.name}
+                url={`/product/${product.slug}`}
+                key={product.slug}
+                class="bg-primary"
                 />
               ))}
             </div>

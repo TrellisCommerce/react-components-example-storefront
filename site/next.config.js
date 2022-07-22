@@ -1,5 +1,7 @@
 const commerce = require('./commerce.config.json')
 const { withCommerceConfig, getProviderName } = require('./commerce-config')
+const withTM = require('next-transpile-modules')(['@trelliscommerce/react-components']); // pass the modules you would like to see transpiled
+
 
 const provider = commerce.provider || getProviderName()
 const isBC = provider === '@vercel/commerce-bigcommerce'
@@ -8,7 +10,7 @@ const isSaleor = provider === '@vercel/commerce-saleor'
 const isSwell = provider === '@vercel/commerce-swell'
 const isVendure = provider === '@vercel/commerce-vendure'
 
-module.exports = withCommerceConfig({
+module.exports = withCommerceConfig(withTM({
   commerce,
   i18n: {
     locales: ['en-US', 'es'],
@@ -35,7 +37,7 @@ module.exports = withCommerceConfig({
         },
     ].filter(Boolean)
   },
-})
+}))
 
 // Don't delete this console log, useful to see the commerce config in Vercel deployments
 console.log('next.config.js', JSON.stringify(module.exports, null, 2))

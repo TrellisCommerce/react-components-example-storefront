@@ -9,6 +9,7 @@ import { Bag, Cross, Check } from '@components/icons'
 import useCart from '@framework/cart/use-cart'
 import usePrice from '@framework/product/use-price'
 import SidebarLayout from '@components/common/SidebarLayout'
+import { CartSummary, OrderPricingSummary } from '@trelliscommerce/react-components';
 
 const CartSidebarView: FC = () => {
   const { closeSidebar, setSidebarView } = useUI()
@@ -80,37 +81,80 @@ const CartSidebarView: FC = () => {
                 </Text>
               </a>
             </Link>
-            <ul className={s.lineItemsList}>
-              {data!.lineItems.map((item: any) => (
-                <CartItem
-                  key={item.id}
-                  item={item}
-                  currencyCode={data!.currency.code}
-                />
-              ))}
-            </ul>
+            <CartSummary
+              cartItems={[
+                {
+                  id: 'aaa',
+                  imageUrl: 'https://via.placeholder.com/150.png/1EA7FD/808080?text=product1',
+                  originalPrice: '$99.99',
+                  quantity: 2,
+                  title: 'Product 1',
+                  variantTitle: 'Variant black'
+                },
+                {
+                  id: 'bbb',
+                  imageUrl: 'https://via.placeholder.com/250.png?text=productSmall2',
+                  originalPrice: '$50.99',
+                  promotionalPrice: '$25.99',
+                  quantity: 1,
+                  title: 'Product 2',
+                  variantTitle: 'Variant small'
+                }
+              ]}
+              isReadOnly={false}
+              onChange={function noRefCheck(){}}
+              onRemove={function noRefCheck(){}}
+            />
+            {/*<ul className={s.lineItemsList}>*/}
+            {/*  {data!.lineItems.map((item: any) => (*/}
+            {/*    <CartItem*/}
+            {/*      key={item.id}*/}
+            {/*      item={item}*/}
+            {/*      currencyCode={data!.currency.code}*/}
+            {/*    />*/}
+            {/*  ))}*/}
+            {/*</ul>*/}
           </div>
 
           <div className="flex-shrink-0 px-6 py-6 sm:px-6 sticky z-20 bottom-0 w-full right-0 left-0 bg-accent-0 border-t text-sm">
-            <ul className="pb-2">
-              <li className="flex justify-between py-1">
-                <span>Subtotal</span>
-                <span>{subTotal}</span>
-              </li>
-              <li className="flex justify-between py-1">
-                <span>Taxes</span>
-                <span>Calculated at checkout</span>
-              </li>
-              <li className="flex justify-between py-1">
-                <span>Shipping</span>
-                <span className="font-bold tracking-wide">FREE</span>
-              </li>
-            </ul>
-            <div className="flex justify-between border-t border-accent-2 py-3 font-bold mb-2">
-              <span>Total</span>
-              <span>{total}</span>
-            </div>
+            {/*<ul className="pb-2">*/}
+            {/*  <li className="flex justify-between py-1">*/}
+            {/*    <span>Subtotal</span>*/}
+            {/*    <span>{subTotal}</span>*/}
+            {/*  </li>*/}
+            {/*  <li className="flex justify-between py-1">*/}
+            {/*    <span>Taxes</span>*/}
+            {/*    <span>Calculated at checkout</span>*/}
+            {/*  </li>*/}
+            {/*  <li className="flex justify-between py-1">*/}
+            {/*    <span>Shipping</span>*/}
+            {/*    <span className="font-bold tracking-wide">FREE</span>*/}
+            {/*  </li>*/}
+            {/*</ul>*/}
+            {/*<div className="flex justify-between border-t border-accent-2 py-3 font-bold mb-2">*/}
+            {/*  <span>Total</span>*/}
+            {/*  <span>{total}</span>*/}
+            {/*</div>*/}
             <div>
+              <OrderPricingSummary
+                breakdown={[
+                  {
+                    label: 'Subtotal',
+                    price: '7.99'
+                  },
+                  {
+                    label: 'Shipping',
+                    price: '7.95'
+                  },
+                  {
+                    label: 'Taxes',
+                    price: '0.71'
+                  }
+                ]}
+                label="OrderPricingSummary"
+                totalLabel="Total"
+                totalPrice="$16.65"
+              />
               {process.env.COMMERCE_CUSTOMCHECKOUT_ENABLED ? (
                 <Button Component="a" width="100%" onClick={goToCheckout}>
                   Proceed to Checkout ({total})
