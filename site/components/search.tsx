@@ -8,6 +8,7 @@ import { Layout } from '@components/common'
 //import { ProductCard } from '@components/product'
 import type { Product } from '@commerce/types/product'
 import { Container, Skeleton } from '@components/ui'
+// @ts-ignore
 import { ProductCard } from '@trelliscommerce/react-components';
 import useSearch from '@framework/product/use-search'
 

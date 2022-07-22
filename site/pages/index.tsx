@@ -3,6 +3,7 @@ import { Layout } from '@components/common'
 import { ProductCard } from '@components/product'
 import { Grid, Marquee, Hero } from '@components/ui'
 import HomeAllProductsGrid from '@components/common/HomeAllProductsGrid'
+// @ts-ignore
 import { HeroImageWithText } from '@trelliscommerce/react-components';
 import type { GetStaticPropsContext, InferGetStaticPropsType } from 'next'
 

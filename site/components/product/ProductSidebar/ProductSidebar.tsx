@@ -4,6 +4,7 @@ import { FC, useEffect, useState } from 'react'
 import { ProductOptions } from '@components/product'
 import type { Product } from '@commerce/types/product'
 import { Text, Rating, Collapse, useUI } from '@components/ui'
+// @ts-ignore
 import { StarRating, Button } from '@trelliscommerce/react-components';
 import {
   getProductVariant,

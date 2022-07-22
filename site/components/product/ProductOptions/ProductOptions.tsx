@@ -2,6 +2,7 @@ import { memo } from 'react'
 import { Swatch } from '@components/product'
 import type { ProductOption } from '@commerce/types/product'
 import { SelectedOptions } from '../helpers'
+// @ts-ignore
 import { VariantSelector } from '@trelliscommerce/react-components';
 
 interface ProductOptionsProps {
@@ -15,8 +16,8 @@ const ProductOptions: React.FC<ProductOptionsProps> = ({
   selectedOptions,
   setSelectedOptions,
 }) => {
- function mapVariants(variants) {
-   const v =  variants.map((variant, i) => {
+ function mapVariants(variants: any) {
+   const v =  variants.map((variant: any, i: any) => {
      console.log(variant)
      return {name: variant.label, id: i, isEnabled: true, color: variant.hexColors ? variant.hexColors[0] : null }
    })

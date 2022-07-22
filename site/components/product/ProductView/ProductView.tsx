@@ -10,6 +10,7 @@ import { Container, Text } from '@components/ui'
 import { SEO } from '@components/common'
 import ProductSidebar from '../ProductSidebar'
 import ProductTag from '../ProductTag'
+// @ts-ignore
 import { ImageGallery } from '@trelliscommerce/react-components';
 
 interface ProductViewProps {
