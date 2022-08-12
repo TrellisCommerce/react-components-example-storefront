@@ -5,6 +5,19 @@ on:
     types: [edited]
 
 jobs:
+  wait_for_vercel_preview:
+    name: Wait for Vercel preview
+    runs-on: ubuntu-latest
+    outputs:
+      preview_url: ${{ steps.waitForVercelPreviewDeployment.outputs.url }}
+    steps:
+      - name: Wait for Vercel preview deployment to be ready
+        uses: patrickedqvist/wait-for-vercel-preview@master
+        id: waitForVercelPreviewDeployment
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          max_timeout: 60
+
   generate_lighthouse_audit:
     timeout-minutes: 30
     runs-on: ubuntu-latest
@@ -19,15 +32,6 @@ jobs:
           message: |
             Running Lighthouse audit...
 
-      - name: Wait for Vercel deployment
-        uses: UnlyEd/github-action-await-vercel@v1.2.14
-        id: await-vercel
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-        with:
-          deployment-url: ${{ github.event.deployment_status.target_url }}
-          timeout: 10 # Wait for 10 seconds before failing
-
       - uses: actions/checkout@v2
 
       - name: Audit preview URL with Lighthouse
@@ -35,7 +39,7 @@ jobs:
         uses: treosh/lighthouse-ci-action@v3
         with:
           urls: |
-            ${{ github.event.deployment_status.target_url }}
+            ${{ needs.wait_for_vercel_preview.outputs.preview_url }}
           uploadArtifacts: true
           temporaryPublicStorage: true
 
