@@ -18,20 +18,27 @@ jobs:
           header: lighthouse
           message: |
             Running Lighthouse audit...
-      - name: Capture Vercel preview URL
-        id: vercel_preview_url
-        uses: aaimio/vercel-preview-url-action@v1.0.1
+
+      - name: Wait for Vercel deployment
+        uses: UnlyEd/github-action-await-vercel@v1.2.14
+        id: await-vercel
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          deployment-url: ${{ github.event.deployment_status.target_url }}
+          timeout: 10 # Wait for 10 seconds before failing
+
       - uses: actions/checkout@v2
+
       - name: Audit preview URL with Lighthouse
         id: lighthouse_audit
         uses: treosh/lighthouse-ci-action@v3
         with:
           urls: |
-            ${{ steps.vercel_preview_url.outputs.vercel_preview_url }}
+            ${{ github.event.deployment_status.target_url }}
           uploadArtifacts: true
           temporaryPublicStorage: true
+
       - name: Format lighthouse score
         id: format_lighthouse_score
         uses: actions/github-script@v3
@@ -60,6 +67,7 @@ jobs:
             ].join('\n')
 
              core.setOutput("comment", comment);
+
       - name: Add comment to PR
         id: comment_to_pr
         uses: marocchino/sticky-pull-request-comment@v1
